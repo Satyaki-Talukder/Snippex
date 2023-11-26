@@ -1,0 +1,328 @@
+{
+  "Method": {
+    "prefix": "meth",
+    "body": [
+      "${1|private,public,global|} ${2:returntype} ${3:methodName}(${4}) {",
+      "\t${5}",
+      "}"
+    ],
+    "description": "Generate Method"
+  },
+
+  "Static Method": {
+    "prefix": "smeth",
+    "body": [
+      "${1|private,public,global|} static ${2:returntype} ${3:methodName}(${4}) {",
+      "\t${5}",
+      "}"
+    ],
+    "description": "Generate Static Method"
+  },
+
+  "AuraEnabled Static Method": {
+    "prefix": "aesmeth",
+    "body": [
+      "@AuraEnabled",
+      "${1|private,public,global|} static ${2:returntype} ${3:methodName}(${4}) {",
+      "\t${5}",
+      "}"
+    ],
+    "description": "Generate AuraEanabled Static Method"
+  },
+
+  "AuraEnabled Cacheable Static Method": {
+    "prefix": "aecsmeth",
+    "body": [
+      "@AuraEnabled(cacheable=true)",
+      "${1|private,public,global|} static ${2:returntype} ${3:methodName}(${4}) {",
+      "\t${5}",
+      "}"
+    ],
+    "description": "Generate AuraEnabled Static Method with Cacheable=true"
+  },
+
+  "Batch Class with Sharing": {
+    "prefix": "bclws",
+    "body": [
+      "${1|private,public,global|} with sharing class ${2:${TM_FILENAME_BASE}} implements Database.Batchable<SObject> {",
+      "",
+      "\t// Class members",
+      "\t${3}",
+      "",
+      "\t// Class constructor",
+      "\t${4|private,public,global|} ${TM_FILENAME_BASE}(${5}) {",
+      "\t\t${6}",
+      "\t}",
+      "",
+      "\t// Batch start",
+      "\t${7|private,public,global|} Database.QueryLocator start(Database.BatchableContext ${8:BC}) {",
+      "\t\t${9}",
+      "\t\tString ${10:query} = ${11}",
+      "\t\treturn Database.getQueryLocator(${10:query})",
+      "\t}",
+      "",
+      "\t// Batch Execute",
+      "\t${12|private,public,global|} void execute(Database.BatchableContext ${8:BC}, ${13}) {",
+      "\t\t${14}",
+      "\t}",
+      "",
+      "\t// Batch finish",
+      "\t${15|private,public,global|} void finish(Database.BatchableContext ${8:BC}) {",
+      "\t\t${16}",
+      "\t}",
+      "}"
+    ],
+    "description": "Generate Batch Class with sharing boiler-plate code"
+  },
+
+  "Stateful Batch Class with Sharing": {
+    "prefix": "sbclws",
+    "body": [
+      "${1|private,public,global|} with sharing class ${2:${TM_FILENAME_BASE}} implements Database.Batchable<SObject>, Database.Stateful {",
+      "",
+      "\t// Class members",
+      "\t${3}",
+      "",
+      "\t// Class constructor",
+      "\t${4|private,public,global|} ${TM_FILENAME_BASE}(${5}) {",
+      "\t\t${6}",
+      "\t}",
+      "",
+      "\t// Batch start",
+      "\t${7|private,public,global|} Database.QueryLocator start(Database.BatchableContext ${8:BC}) {",
+      "\t\t${9}",
+      "\t\tString ${10:query} = ${11}",
+      "\t\treturn Database.getQueryLocator(${10:query})",
+      "\t}",
+      "",
+      "\t// Batch Execute",
+      "\t${12|private,public,global|} void execute(Database.BatchableContext ${8:BC}, ${13}) {",
+      "\t\t${14}",
+      "\t}",
+      "",
+      "\t// Batch finish",
+      "\t${15|private,public,global|} void finish(Database.BatchableContext ${8:BC}) {",
+      "\t\t${16}",
+      "\t}",
+      "}"
+    ],
+    "description": "Generate Stateful Batch Class with sharing boiler-plate code"
+  },
+
+  "Schedulable Class with Sharing": {
+    "prefix": "sclws",
+    "body": [
+      "${1|private,public,global|} with sharing class ${2:${TM_FILENAME_BASE}} implements implements Schedulable {",
+      "",
+      "\t// Class members",
+      "\t${3}",
+      "",
+      "\t// Class constructor",
+      "\t${4|private,public,global|} ${TM_FILENAME_BASE}(${5}) {",
+      "\t\t${6}",
+      "\t}",
+      "",
+      "\t// Execute method",
+      "\t${7|private,public,global|} void execute(SchedulableContext ${8:sc}) {",
+      "\t\t${9}",
+      "\t}",
+      "}"
+    ],
+    "description": "Generate Schedulable Class with sharing boiler-plate code"
+  },
+
+  "SOQL": {
+    "prefix": "soql",
+    "body": ["[SELECT ${2:fieldnames} FROM ${1:objectname}];"],
+    "description": "SOQL String"
+  },
+
+  "SOQL with WHERE": {
+    "prefix": "soqlw",
+    "body": [
+      "[SELECT ${2:fieldnames} FROM ${1:objectname} WHERE ${3:conditions}];"
+    ],
+    "description": "SOQL String with WHERE clause"
+  },
+
+  "Database Save Result": {
+    "prefix": "dbsr",
+    "body": [
+      "Database.SaveResult[] ${1:srList} = Database.${2|insert,update|}(${3}, ${4:false});",
+      "",
+      "// Iterate through each returned result",
+      "for (Database.SaveResult ${5:sr} : ${1:srList}) {",
+      "\tif (${5:sr}.isSuccess()) {",
+      "\t\t${6}",
+      "\t} else {",
+      "\t\t// Get errors of failed operations",
+      "\t\tfor(Database.Error ${7:err} : ${5:sr}.getErrors()) {",
+      "\t\t\t${8}",
+      "\t\t}",
+      "\t}",
+      "}"
+    ],
+    "description": "Database SaveResult boiler-plate code"
+  },
+
+  "Database Upsert Result": {
+    "prefix": "dbur",
+    "body": [
+      "Database.UpsertResult[] ${1:urList} = Database.upsert(${2}, ${3:externalId}, ${4:false});",
+      "",
+      "// Iterate through each returned result",
+      "for (Database.UpsertResult ${5:ur} : ${1:urList}) {",
+      "\tif (${5:ur}.isSuccess()) {",
+      "\t\t${6}",
+      "\t} else {",
+      "\t\t// Get errors of failed operations",
+      "\t\tfor(Database.Error ${7:err} : ${5:ur}.getErrors()) {",
+      "\t\t\t${8}",
+      "\t\t}",
+      "\t}",
+      "}"
+    ],
+    "description": "Database UpsertResult boiler-plate code"
+  },
+
+  "Database Delete Result": {
+    "prefix": "dbdr",
+    "body": [
+      "Database.DeleteResult[] ${1:drList} = Database.delete(${2}, ${3:false});",
+      "",
+      "// Iterate through each returned result",
+      "for (Database.DeleteResult ${4:dr} : ${1:drList}) {",
+      "\tif (${4:dr}.isSuccess()) {",
+      "\t\t${5}",
+      "\t} else {",
+      "\t\t// Get errors of failed operations",
+      "\t\tfor(Database.Error ${6:err} : ${4:dr}.getErrors()) {",
+      "\t\t\t${7}",
+      "\t\t}",
+      "\t}",
+      "}"
+    ],
+    "description": "Database DeleteResult boiler-plate code"
+  },
+
+  "Database UnDelete Result": {
+    "prefix": "dbudr",
+    "body": [
+      "Database.UndeleteResult[] ${1:udrList} = Database.undelete(${2}, ${3:false});",
+      "",
+      "// Iterate through each returned result",
+      "for (Database.UndeleteResult ${4:udr} : ${1:udrList}) {",
+      "\tif (${4:udr}.isSuccess()) {",
+      "\t\t${5}",
+      "\t} else {",
+      "\t\t// Get errors of failed operations",
+      "\t\tfor(Database.Error ${6:err} : ${4:udr}.getErrors()) {",
+      "\t\t\t${7}",
+      "\t\t}",
+      "\t}",
+      "}"
+    ],
+    "description": "Database UndeleteResult boiler-plate code"
+  },
+
+  "Database Insert/Update": {
+    "prefix": "dbiu",
+    "body": [
+      "Database.SaveResult[] ${1:srList} = Database.${2|insert,update|}(${3}, ${4:false});"
+    ],
+    "description": "Database Insert/Update"
+  },
+
+  "Database Upsert": {
+    "prefix": "dbu",
+    "body": [
+      "Database.UpsertResult[] ${1:urList} = Database.upsert(${2}, ${3:externalId}, ${4:false});"
+    ],
+    "description": "Database Upsert"
+  },
+
+  "Database Undelete": {
+    "prefix": "dbud",
+    "body": [
+      "Database.UndeleteResult[] ${1:udrList} = Database.undelete(${2}, ${3:false});"
+    ],
+    "description": "Database Undelete"
+  },
+
+  "Database Delete": {
+    "prefix": "dbd",
+    "body": [
+      "Database.DeleteResult[] ${1:drList} = Database.delete(${2}, ${3:false});"
+    ],
+    "description": "Database Delete"
+  },
+
+  "Single Email Text Message": {
+    "prefix": "setm",
+    "body": [
+      "// Define the mail",
+      "Messaging.SingleEmailMessage ${1:email} = new Messaging.SingleEmailMessage();",
+      "",
+      "// Defining email params",
+      "String ${2:emailsubject} = ${3}",
+      "String ${4:emailbody} = ${5}",
+      "String ${6:emailaddresses} = new String[] {${7}}",
+      "",
+      "// Setting email paramameters",
+      "${1:email}.setSubject(${2:emailsubject});",
+      "${1:email}.setPlainTextBody(${4:emailbody});",
+      "${1:email}.setToAddresses(${6:emailaddresses});",
+      "",
+      "// Sending email",
+      "Messaging.SendEmailResult[] ${8:eres} = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{${1:email}});"
+    ],
+    "description": "Single Email Text Message boiler-plate code"
+  },
+
+  "Single Email Text Message with Attachment": {
+    "prefix": "setma",
+    "body": [
+      "// Define the mail",
+      "Messaging.SingleEmailMessage ${1:email} = new Messaging.SingleEmailMessage();",
+      "// Define email attachment list",
+      "Messaging.EmailFileAttachment[] ${2:emailAttList} = new List<Messaging.EmailFileAttachment>();",
+      "",
+      "// Defining attachment params",
+      "String ${3:attbodystr} = '${4}';",
+      "String ${5:attName} = '${6}';",
+      "",
+      "// Create email attachment",
+      "Messaging.EmailFileAttachment ${7:efa} = new Messaging.EmailFileAttachment();",
+      "${7:efa}.setFilename(${5:attName});",
+      "${7:efa}.setBody(Blob.valueOf(${3:attbodystr}));",
+      "${2:emailAttList}.add(${7:efa});",
+      "",
+      "// Defining email params",
+      "String ${8:emailsubject} = ${9}",
+      "String ${10:emailbody} = ${11}",
+      "String ${12:emailaddresses} = new String[] {${13}}",
+      "",
+      "// Setting email paramameters",
+      "${1:email}.setSubject(${8:emailsubject});",
+      "${1:email}.setPlainTextBody(${10:emailbody});",
+      "${1:email}.setToAddresses(${12:emailaddresses});",
+      "",
+      "// Sending email",
+      "Messaging.SendEmailResult[] ${13:eres} = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{${1:email}});"
+    ],
+    "description": "Single Email Text Message with Attachment boiler-plate code"
+  },
+
+  "Define email Attachment": {
+    "prefix": "ea",
+    "body": [
+      "// Create email attachment",
+      "Messaging.EmailFileAttachment ${1:efa} = new Messaging.EmailFileAttachment();",
+      "${2}",
+      "${1:efa}.setFilename(${3});",
+      "${1:efa}.setBody(${4});",
+      "emailAttList.add(${1:efa});"
+    ],
+    "description": "Define email attachment"
+  }
+}
