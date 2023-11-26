@@ -1,6 +1,7 @@
 {
   "name": "snippex",
   "displayName": "snippex",
+  "publisher": "SatyakiTalukder",
   "description": "Salesforce Apex Snippets",
   "version": "0.0.1",
   "engines": {
